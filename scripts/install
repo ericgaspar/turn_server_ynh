@@ -231,7 +231,7 @@ echo "Coturn was successfully installed :)
 
 username     $admin
 Credentials: $turnserver_pwd
-db: $db_pwd
+
 
 
 Galène is now accesible at this adress: https://$domain
