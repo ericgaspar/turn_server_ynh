@@ -7,10 +7,10 @@
         "fr": "Serveur de visioconférence facile à déployer"
     },
     "version": "4.5.1.1~ynh1",
-    "url": "https://galene.org/",
+    "url": "https://github.com/coturn/coturn",
     "license": "MIT",
     "maintainer": {
-        "name": "eric_G",
+        "name": "",
         "email": ""
     },
     "requirements": {
