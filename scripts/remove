@@ -59,7 +59,7 @@ ynh_script_progression --message="Removing Coturn main directory..." --weight=2
 ynh_secure_remove --file=/var/log/$app
 
 ynh_secure_remove --file=/etc/turnserver.conf
-mv /etc/turnserver.conf.original /etc/turnserver.conf
+mv /etc/turnserver.conf.orig /etc/turnserver.conf
 
 #=================================================
 # REMOVE LOGROTATE CONFIGURATION

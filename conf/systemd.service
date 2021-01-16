@@ -1,27 +1,23 @@
 [Unit]
-Description=coturn
+Description=Coturn STUN/TURN Server
 Documentation=man:coturn(1) man:turnadmin(1) man:turnserver(1)
-After=syslog.target network.target
+After=network.target
+After=network-online.target
+After=remote-fs.target
+Wants=network-online.target
 
 [Service]
 User=turnserver
 Group=turnserver
-Type=forking
-EnvironmentFile=/etc/default/coturn-__APP__
-PIDFile=/run/coturn-__APP__/turnserver.pid
-RuntimeDirectory=coturn-__APP__
-RuntimeDirectoryMode=0755
-ExecStart=/usr/bin/turnserver -o -c /etc/__APP__/coturn.conf $EXTRA_OPTIONS
-ExecStopPost=/bin/rm -f /run/__APP__/turnserver.pid
-Restart=on-abort
-
-LimitCORE=infinity
-LimitNOFILE=999999
-LimitNPROC=60000
-LimitRTPRIO=infinity
-LimitRTTIME=7000000
-CPUSchedulingPolicy=other
-UMask=0007
+Type=notify
+PIDFile=/var/run/turnserver.pid #add
+RuntimeDirectory=turnserver
+ExecStart=/usr/bin/turnserver -c /etc/turnserver.conf
+Restart=on-failure
+ExecStopPost=/bin/rm -f /var/run/turnserver.pid #add
+InaccessibleDirectories=/home
+PrivateTmp=yes
 
 [Install]
 WantedBy=multi-user.target
+Alias=turnserver.service
