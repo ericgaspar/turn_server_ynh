@@ -148,6 +148,15 @@ fi
 
 ynh_store_file_checksum --file="$coturn_config_path"
 
+
+#=================================================
+# SET DB CONFIG
+#=================================================
+
+cp ../conf/turnuserdb.conf /etc/turnuserdb.conf
+ynh_replace_string --match_string=__PASSWORD__ --replace_string=$turnserver_pwd --target_file="/etc/turnuserdb.conf"
+ynh_replace_string --match_string=__ADMIN__ --replace_string=$admin --target_file="/etc/turnuserdb.conf"
+
 #=================================================
 # SETUP LOGROTATE
 #=================================================
