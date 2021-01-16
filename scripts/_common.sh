@@ -5,7 +5,7 @@
 #=================================================
 
 # dependencies used by the app
-pkg_dependencies="sqlite3 libsqlite3-dev postgresql coturn acl"
+pkg_dependencies="sqlite3 libsqlite3-dev coturn acl"
 
 #=================================================
 # PERSONAL HELPERS
@@ -15,8 +15,6 @@ pkg_dependencies="sqlite3 libsqlite3-dev postgresql coturn acl"
 # EXPERIMENTAL HELPERS
 #=================================================
 
-
-#!/bin/bash
 
 # Send an email to inform the administrator
 #
