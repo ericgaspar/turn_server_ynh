@@ -5,7 +5,7 @@
 #=================================================
 
 # dependencies used by the app
-pkg_dependencies="coturn acl"
+pkg_dependencies="postgresql coturn acl"
 
 #=================================================
 # PERSONAL HELPERS
