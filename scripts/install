@@ -93,28 +93,12 @@ ynh_script_progression --message="Configuring system user..." --weight=3
 ynh_system_user_create --username=turnserver
 adduser turnserver ssl-cert
 
-# #=================================================
-# # CREATE A POSTGRESQL DATABASE
-# #=================================================
-# ynh_script_progression --message="Creating a PostgreSQL database..." --weight=2
-
-# db_name=$(ynh_sanitize_dbid --db_name=turnserver)
-# db_user=$db_name
-# db_pwd=$(ynh_string_random --length=30)
-
-# ynh_app_setting_set --app=$app --key=db_name --value=$db_name
-# ynh_app_setting_set --app=$app --key=db_pwd  --value=$db_pwd
-
-# ynh_psql_test_if_first_run
-# ynh_psql_setup_db --db_user=$db_user --db_name=$db_name --db_pwd=$db_pwd
-
 #=================================================
 # SETUP SYSTEMD
 #=================================================
 ynh_script_progression --message="Configuring a systemd service..." --weight=1
 
 mkdir -p /var/log/$app
-#mkdir -p /etc/$app
 # Create systemd service for turnserver
 cp ../conf/default.coturn /etc/default/coturn
 # Create a dedicated systemd config
@@ -146,9 +130,6 @@ ynh_replace_string --match_string=__CLI_PORT__ --replace_string=$cli_port --targ
 ynh_print_OFF
 ynh_replace_string --match_string=__TURNPWD__ --replace_string=$turnserver_pwd --target_file="$coturn_config_path"
 ynh_print_ON
-#ynh_replace_string --match_string=__DB_NAME__  --replace_string=$db_name --target_file="$coturn_config_path"
-#ynh_replace_string --match_string=__DB_USER__ --replace_string=$db_name --target_file="$coturn_config_path"
-#ynh_replace_string --match_string=__DB_PASSWORD__ --replace_string=$db_pwd --target_file="$coturn_config_path"
 
 # Get public IP and set as external IP for coturn
 # note: '|| true' is used to ignore the errors if we can't get the public ipv4 or ipv6
@@ -210,35 +191,19 @@ ynh_script_progression --message="Starting a systemd service..." --weight=1
 ynh_systemd_action --service_name=$app --action=restart --log_path="/var/log/$app/$app.log"
 
 #=================================================
-# SETUP SSOWAT
-#=================================================
-# ynh_script_progression --message="Configuring permissions..." --weight=2
-
-# # Make app public if necessary
-# if [ $is_public -eq 1 ]
-# then
-# 	ynh_permission_update --permission "main" --add "visitors" --show_tile="false"
-# fi
-
-#=================================================
 # SEND A README FOR THE ADMIN
 #=================================================
 
 # WARNING : theses command are used in INSTALL, RESTORE
 # For any update do it in all files
 
-echo "Coturn was successfully installed :)
+echo "Coturn server was successfully installed :)
 
 username     $admin
+
 Credentials: $turnserver_pwd
 
-
-
-Galène is now accesible at this adress: https://$domain
-
-Galène implements a TURN server (for VoIP), to have this fully functional please read the 'TURN server' section in the README available here: https://github.com/YunoHost-Apps/galene_ynh .
-
-If you're facing an issue or want to improve this app, please open a new issue in this project: https://github.com/YunoHost-Apps/galene_ynh" > mail_to_send
+If you're facing an issue or want to improve this app, please open a new issue in this project: https://github.com/YunoHost-Apps/coturn_ynh" > mail_to_send
 
 ynh_send_readme_to_admin --app_message="mail_to_send" --type="install"
 
