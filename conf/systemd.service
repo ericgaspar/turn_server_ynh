@@ -10,11 +10,11 @@ Wants=network-online.target
 User=turnserver
 Group=turnserver
 Type=notify
-PIDFile=/run/turnserver.pid #add
+#PIDFile=/run/turnserver.pid #add
 RuntimeDirectory=turnserver
 ExecStart=/usr/bin/turnserver -c /etc/turnserver.conf
 Restart=on-failure
-ExecStopPost=/bin/rm -f /run/turnserver.pid #add
+#ExecStopPost=/bin/rm -f /run/turnserver.pid #add
 InaccessibleDirectories=/home
 PrivateTmp=yes
 
