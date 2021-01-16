@@ -10,11 +10,21 @@ Wants=network-online.target
 User=turnserver
 Group=turnserver
 Type=notify
-RuntimeDirectory=turnserver
-ExecStart=/usr/bin/turnserver -c /etc/turnserver.conf
-Restart=on-failure
-InaccessibleDirectories=/home
-PrivateTmp=yes
+EnvironmentFile=/etc/default/coturn
+PIDFile=/run/coturn/turnserver.pid
+RuntimeDirectory=coturn
+RuntimeDirectoryMode=0755
+ExecStart=/usr/bin/turnserver -o -c /etc/turnserver.conf $EXTRA_OPTIONS
+ExecStopPost=/bin/rm -f /run/coturn/turnserver.pid
+Restart=on-abort
+
+LimitCORE=infinity
+LimitNOFILE=999999
+LimitNPROC=60000
+LimitRTPRIO=infinity
+LimitRTTIME=7000000
+CPUSchedulingPolicy=other
+UMask=0007
 
 [Install]
 WantedBy=multi-user.target
